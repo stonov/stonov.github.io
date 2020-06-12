@@ -1,1 +1,104 @@
-Hello world
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head>
+<title>MP4 </title>
+<meta charset="utf-8"> 
+</head>
+
+    
+<script id="shader-vs" type="x-shader/x-vertex">
+    attribute vec3 aVertexNormal;
+    attribute vec3 aVertexPosition;
+    
+    varying vec3 vVertexNormal;
+   
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat3 uNMatrix;
+    
+    varying vec4 vertexPositionEye4;
+    varying vec3 vertexPositionEye3;
+    varying vec3 normalEye;
+
+    void main(void) {
+    
+    //Set a varying normal to be used in the fragment shader
+    vVertexNormal = aVertexNormal;
+    
+    // Get the vertex position in eye coordinates
+    vertexPositionEye4 = uMVMatrix * vec4(aVertexPosition, 1.0);
+    vertexPositionEye3 = vertexPositionEye4.xyz / vertexPositionEye4.w;
+    
+    // Transform the normal (n) to eye coordinates
+    normalEye = normalize(uNMatrix * vVertexNormal);
+    
+    gl_Position = uPMatrix*uMVMatrix*vec4(aVertexPosition, 1.0);
+    }
+</script>
+  
+<script id="shader-fs" type="x-shader/x-fragment">
+    precision mediump float;
+    varying vec4 vertexPositionEye4;
+    varying vec3 vertexPositionEye3;
+    varying vec3 normalEye;
+
+    uniform vec3 uLightPosition;
+    uniform vec3 uAmbientLightColor;
+    uniform vec3 uDiffuseLightColor;
+    uniform vec3 uSpecularLightColor;
+    
+    uniform vec3 uKAmbient;
+    uniform vec3 uKDiffuse;
+    uniform vec3 uKSpecular;
+    uniform float uShininess;
+
+void main(void) {
+    
+    // Calculate the vector (l) to the light source
+    vec3 vectorToLightSource = normalize(uLightPosition - vertexPositionEye3);
+    
+    // Calculate n dot l for diffuse lighting
+    float diffuseLightWeightning = max(dot(normalEye, 
+                                    vectorToLightSource), 0.4);
+    
+    // The camera in eye coordinates is located in the origin and is pointing
+    // along the negative z-axis. Calculate viewVector (v) 
+    // in eye coordinates as:
+    // (0.0, 0.0, 0.0) - vertexPositionEye3
+    vec3 viewVectorEye = -normalize(vertexPositionEye3);
+    
+    // Calculate the halfway vector
+    vec3 halfway = normalize(vectorToLightSource + viewVectorEye);
+    
+    float ndoth = max(dot(halfway, normalEye), 0.0);
+    
+    float specularLightWeightning = pow(ndoth, uShininess);
+
+    // Sum up all three reflection components and send to the fragment shader
+    vec4 vColor = vec4((uAmbientLightColor*uKAmbient)
+                + (uDiffuseLightColor*uKDiffuse) * diffuseLightWeightning
+                + ((uSpecularLightColor*uKSpecular) * specularLightWeightning),1.0);
+    gl_FragColor = vColor;
+ }
+</script>
+
+<script src="gl-matrix-min.js"></script> 
+<script src="webgl-utils.js"></script> 
+<script src="simpleModeling.js"></script>
+<script src="Sphere.js"></script>  
+<script src="MP4.js"></script>   
+<body onload="startup();"; onkeydown='keyCheck(event)'>
+ <canvas id="myGLCanvas" width="500" height="500"></canvas>
+    <form id="input_form">
+        <text>(Space): Add a ball<br></text>
+        <text>(R): Delete all balls<br></text>
+        <text>(Left/Right): Rotate box<br></text>
+        <text>
+            <legend>Gravity:</legend>
+         <input type="radio" name="gravity" id="on" value="on" checked> On
+         <input type="radio" name="gravity" id="off" id="off" value="off"> Off
+        </text>
+        </form>
+</body>
+
+</html>
