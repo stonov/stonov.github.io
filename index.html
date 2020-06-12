@@ -1,1 +1,61 @@
-Hello world
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body, .blurred-bg-container .content .blur h1{margin:0;}
+        
+        .blurred-bg-container{
+            background:url(img/siebl.png) no-repeat center center;
+            height:100vh;
+            background-size: cover;
+        }
+        
+        .blurred-bg-container .content{
+            background: inherit;
+            width: 50%;
+            height: 50%;
+            border-radius: 6px;
+            box-shadow: 0 0 16px rgba(0,0,0,0.5);
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            overflow: hidden;
+            transform: rotate(0deg);
+        }
+        
+        .blurred-bg-container .blur{
+            background: inherit;
+            height: 100vh;
+            width: 200%; /* = 100/width * 100%*/
+            position: absolute;
+            left: -50%;
+            top: -50%;
+            filter: blur(10px);
+            transform: rotate(0deg);
+            z-index: -1;
+        }
+        
+        .blurred-bg-container .text{
+            background: rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            height: 100%;
+            color: white;
+            text-align: center;
+            font-family: monospace;
+            padding: 16px;
+        }
+    </style>
+</head>
+    
+<body>
+    <div class="blurred-bg-container">
+        <div class="content">
+            <div class = "text">
+                <h1>Simon Tonov</h1>
+            </div>
+            <div class = "blur">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
