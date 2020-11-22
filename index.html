@@ -1,61 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-        body, .blurred-bg-container .content .blur h1{margin:0;}
+    <head>
+        <meta charset="utf-8">
+        <script src="https://kit.fontawesome.com/65913c67fd.js" crossorigin="anonymous"></script>
         
-        .blurred-bg-container{
-            background:url(img/siebl.png) no-repeat center center;
-            height:100vh;
-            background-size: cover;
-        }
-        
-        .blurred-bg-container .content{
-            background: inherit;
-            width: 50%;
-            height: 50%;
-            border-radius: 6px;
-            box-shadow: 0 0 16px rgba(0,0,0,0.5);
-            position: absolute;
-            top: 25%;
-            left: 25%;
-            overflow: hidden;
-            transform: rotate(0deg);
-        }
-        
-        .blurred-bg-container .blur{
-            background: inherit;
-            height: 100vh;
-            width: 200%; /* = 100/width * 100%*/
-            position: absolute;
-            left: -50%;
-            top: -50%;
-            filter: blur(10px);
-            transform: rotate(0deg);
-            z-index: -1;
-        }
-        
-        .blurred-bg-container .text{
-            background: rgba(0,0,0,0.5);
-            box-sizing: border-box;
-            height: 100%;
-            color: white;
-            text-align: center;
-            font-family: monospace;
-            padding: 16px;
-        }
-    </style>
-</head>
+        <link rel ="stylesheet" href="css/style.css">
+        <title>Simeon Tonov</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
     
-<body>
-    <div class="blurred-bg-container">
-        <div class="content">
-            <div class = "text">
-                <h1>Simon Tonov</h1>
-            </div>
-            <div class = "blur">
-            </div>
-        </div>
-    </div>
-</body>
+    <body>
+        <div class="box">
+            <a href="#"><img src="img/profile.jpg" alt="" class="box-img"></a>
+            <h1>Simeon Tonov</h1>
+            <h5>CS Major at UIUC</h5>
+            <p>Senior-year Computer Science student experienced with data structures and system programming, seeking a summer internship position.</p>
+            
+            <ul>
+                <li><a href="https://github.com/stonov" target="_blank"><i class="fab fa-github"></i></a></li>
+                <li><a href="https://www.linkedin.com/in/simeon-tonov/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                <li><a href="src/Resume2020.pdf"><i class="fas fa-newspaper" target="_blank"></i></a></li>
+            </ul>
+        </div>    
+    </body>
+    
 </html>
